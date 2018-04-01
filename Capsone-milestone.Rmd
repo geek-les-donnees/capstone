@@ -1,0 +1,114 @@
+---
+title: "Capstone Project Milestone Report"
+author: "Felix E. Rivera-Mariani, PhD"
+date: "March 18, 2016"
+output: html_document
+---
+
+
+## Summary
+
+The purpose of this report is to explore the data to be used as training data towards the development of an application for the a prediction algorithm. The data analyzed in this report originates from the corpus HC Corpora (www.corpora.heliohost.org). This data include three corpora of US English text: a set of internet blog pots, set of internet news articles, and set of messages from twitter. The following parameters were explored: file sizes, line numbers, number non-empty lines, word and character counts, and number of non-white characters. From this exploratory analysis, the twitter corpus seems to different in the parameters mentioned above when compared to the blogs and news corpora. A possible explanation for this difference could be the character limit (i.e 140 characters) set for Twitter messages. These findings must be kept in mind through the workflow towards developing the application and text prediction algorithm. 
+
+## Loading the Data
+```{r, loaddata, cache=TRUE}
+# the download and distination sources are specified
+file_destination <- "Coursera-SwiftKey.zip"
+file_source <- "http://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
+
+# donwload is executed
+download.file(file_source, file_destination)
+
+# files are extracted from the downloaded zip file 
+unzip(file_destination)
+```
+
+```{r, unzipdata, cache=TRUE}
+# unzipped files are confirmed
+unzip(file_destination, list = TRUE )
+```
+
+```{r, inspectdata}
+# data files are inspected 
+list.files("final")
+
+list.files("final/en_US")
+```
+
+From the above inspection, the three unzipped data are three separate plain-text files. Important to note that one of the files is in binary mode.
+
+Based on the above inspections, the blogs and twitter data are imported as text, while the news data is imported in binary mode.
+```{r, import_blog_twitter}
+# In text mode, blogs and twitter datasets are imported 
+blogstext <- readLines("final/en_US/en_US.blogs.txt", encoding="UTF-8")
+twittertext <- readLines("final/en_US/en_US.twitter.txt", encoding="UTF-8")
+```
+
+```{r, import_news}
+# In binary mode, the news dataset is imported
+con <- file("final/en_US/en_US.news.txt", open="rb")
+newstext <- readLines(con, encoding="UTF-8")
+close(con)
+rm(con)
+```
+
+## Basic Statistics of the Importaed Files 
+```{r, filesize}
+# In MegaBytes(MB), the files sizes are calculated
+file.info("final/en_US/en_US.blogs.txt")$size   / 1024^2
+
+file.info("final/en_US/en_US.twitter.txt")$size / 1024^2
+
+file.info("final/en_US/en_US.news.txt")$size    / 1024^2
+```
+
+The libraries to be used in further basic statistics analyses are loaded. 
+```{r, libraries}
+# library for character string analysis
+library(stringi)
+
+# library for plotting
+library(ggplot2)
+```
+
+The lines and character counts are evaluated.
+```{r, string_analysis}
+stri_stats_general(blogstext)
+
+stri_stats_general(twittertext)
+
+stri_stats_general(newstext )
+```
+
+In the remaining code chunks, the summary statistics of each of the three files are evaluated as well as histogram of the counts. The files are analyzed in the following order: 1) blogs, 2) twitter, 3) news
+```{r, summary_blogs}
+blogstext_words   <- stri_count_words(blogstext)
+summary(blogstext_words)
+```
+
+```{r, plot_blogs}
+qplot(blogstext_words, main = "Blogs File Word Count")
+```
+
+```{r, summary_twitter}
+twittertext_words <- stri_count_words(twittertext)
+summary(twittertext_words)
+```
+
+```{r, plot_twitter}
+qplot(twittertext_words, main = "Twitter File Word Count")
+```
+
+```{r, summary_news}
+newstext_words    <- stri_count_words(newstext)
+summary(newstext_words)
+```
+
+```{r, plot_news}
+qplot(newstext_words, main = "News File Word Count")
+```
+
+## Conclusion
+This exploratory data report examines three copora of US English text (blogs, twitter, news). All three files are approximately 200 MBs in size. Nevertheless, the blogs and the news files seems to contain similar items count (~  million), while the twitter count is larger. This larger item counts may be due to the 140 character limit of the twitter items. This difference is not observed with word counts as all three files have about 200 million words each. Finally, the distributions of the frequencies of the twitter differ from those of blogs and news, with the latter two appearing to be log-normal. 
+
+

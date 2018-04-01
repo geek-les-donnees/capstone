@@ -1,0 +1,9 @@
+name: predictword
+account: friveramariani
+server: shinyapps.io
+appId: 96453
+bundleId: 427427
+url: https://friveramariani.shinyapps.io/predictword/
+when: 1461232583.13812
+asMultiple: FALSE
+asStatic: FALSE

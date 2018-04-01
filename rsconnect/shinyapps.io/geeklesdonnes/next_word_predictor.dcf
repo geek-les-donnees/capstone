@@ -1,0 +1,12 @@
+name: next_word_predictor
+title: Next_word_predictor
+username:
+account: geeklesdonnes
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 312938
+bundleId: 1296751
+url: https://geeklesdonnes.shinyapps.io/next_word_predictor/
+when: 1522593687.3665
+asMultiple: FALSE
+asStatic: FALSE

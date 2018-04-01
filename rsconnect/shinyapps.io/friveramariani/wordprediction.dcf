@@ -1,0 +1,9 @@
+name: wordprediction
+account: friveramariani
+server: shinyapps.io
+appId: 96464
+bundleId: 427465
+url: https://friveramariani.shinyapps.io/wordprediction/
+when: 1461235039.28175
+asMultiple: FALSE
+asStatic: FALSE
